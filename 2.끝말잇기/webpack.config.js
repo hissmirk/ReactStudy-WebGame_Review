@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   name: 'word-relay-setting',
   mode: 'development', // 실서비스: production
-  devtool: 'eval',
+  devtool: 'eval',     // 실서비스: hidden-source-map
   resolve: {
     extensions: ['.jsx', '.js'],
   },
@@ -26,7 +26,7 @@ module.exports = {
           }],
           '@babel/preset-react',
         ],
-        plugins: ['@babel/plugin-proposal-class-properties'],
+        // plugins: ['@babel/plugin-proposal-class-properties'],
       },
     }],
   },
