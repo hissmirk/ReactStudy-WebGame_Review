@@ -1,4 +1,5 @@
 const path = require('path');
+const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
   name: 'word-relay-setting',
@@ -9,7 +10,7 @@ module.exports = {
   },
 
   entry: {
-    app: './client.jsx', // ['./client.jsx', 'WordRelay.jsx'] 'WordRelay.jsx'는 이미 불러오고 있음.
+    app: './client.jsx',
   }, // 입력
 
   module: {
@@ -20,19 +21,29 @@ module.exports = {
         presets: [
           ['@babel/preset-env', {
             targets: {
-              browsers: ['> 1% in KR'], // browserslist
+              browsers: ['> 1% in KR'],
             },
             debug: true,
           }],
           '@babel/preset-react',
         ],
-        // plugins: ['@babel/plugin-proposal-class-properties'],
       },
     }],
   },
+
+  plugins: [
+    new RefreshWebpackPlugin(),
+  ],
 
   output: {
     filename: 'app.js',
     path: path.join(__dirname, 'dist'), // __dirname = 현재 폴더, 'dist' = 경로
   }, // 출력
+
+  devServer: {
+    devMiddleware: { publicPath: '/dist' },
+    static: { directory: path.resolve(__dirname, 'src') },
+    hot: true,
+  },
+
 };
