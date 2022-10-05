@@ -1,4 +1,4 @@
 .idea
-2.끝말잇기/node_modules
-2.끝말잇기/package-lock.json
-2.끝말잇기/dist/app.js
+**/node_modules
+**/dist
+**/package-lock.json
