@@ -1,4 +1,4 @@
 .idea
 **/node_modules
-**/dist
+**/dist/app.js
 **/package-lock.json
