@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-import Try from "./Try";
+import Try from "./Try-hooks";
 
 function getNumbers() {
   const candidate = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -50,6 +50,7 @@ const NumberBaseball = () => {
         }
         setTries([...tries, { try: value, result: `${strike} Strike, ${ball} Ball` }]);
         setValue('');
+        inputRef.current.focus();
       }
     }
   };
@@ -58,6 +59,7 @@ const NumberBaseball = () => {
     alert('Try again!');
     setResult('');
     setTries([]);
+    inputRef.current.focus();
   }
 
   const onChangeInput = (e) => {
