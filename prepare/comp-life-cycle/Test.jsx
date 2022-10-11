@@ -3,6 +3,11 @@ import React, { Component } from "react";
 class Test extends Component {
   state = {
     counter: 0,
+    string: '',
+    number: 1,
+    boolean: true,
+    object: { a: 'b', c: 'd' },
+    array: [],
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -13,8 +18,10 @@ class Test extends Component {
   }
 
   onClick = () => {
-    this.setState({});
-  }
+    this.setState({
+      counter : 1,
+    });
+  };
 
   render() {
     console.log('렌더링', this.state);
