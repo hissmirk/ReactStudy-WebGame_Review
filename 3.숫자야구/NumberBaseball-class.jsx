@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Try from "./Try";
+import Try from "./Try-class";
 
 function getNumbers() {
   const candidate = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -16,10 +16,10 @@ class NumberBaseball extends Component {
   state = {
     result: '',
     value: '',
-    answer: getNumbers,
+    answer: getNumbers(),
     tries: [],
   };
-// 9
+
   onSubmitForm = (e) => {
     const { value, answer, tries } = this.state; // 구조분해
     console.log('tries.length : ' + tries.length);
@@ -37,6 +37,7 @@ class NumberBaseball extends Component {
         answer: getNumbers(),
         tries: [],
       });
+      this.inputRef.focus();
     } else {
       const answerArray = value.split('').map((v) => parseInt(v));
       let strike = 0;
@@ -51,6 +52,7 @@ class NumberBaseball extends Component {
           answer: getNumbers(),
           tries: [],
         });
+        this.inputRef.focus();
       } else {
         for (let i = 0; i < 4; i += 1) {
           if (answerArray[i] === answer[i]) {
@@ -58,10 +60,13 @@ class NumberBaseball extends Component {
           } else if (answer.includes(answerArray[i])) {
             ball += 1;
           }
-          this.setState({
-            tries: [...tries, { try: value, result: `${strike} Strike, ${ball} Ball` }],
-            value: '',
-          })
+          this.setState((prevState) => {
+            return {
+              tries: [...prevState.tries, { try: value, result: `${strike} Strike, ${ball} Ball` }],
+              value: '',
+            };
+          });
+          this.inputRef.focus();
         }
       }
     }
@@ -73,13 +78,16 @@ class NumberBaseball extends Component {
     });
   };
 
+  inputRef;
+  onInputRef = (c) => { this.inputRef = c;}
+
   render() {
     const { result, value, tries } = this.state; // 구조분해
     return (
       <>
         <h1>{result}</h1>
         <form onSubmit={this.onSubmitForm}>
-          <input maxLength={4} value={value} onChange={this.onChangeInput}/>
+          <input ref={this.onInputRef} maxLength={4} value={value} onChange={this.onChangeInput}/>
         </form>
         <div>시도: {tries.length}</div>
         <ul>
