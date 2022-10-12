@@ -22,7 +22,6 @@ class NumberBaseball extends Component {
 
   onSubmitForm = (e) => {
     const { value, answer, tries } = this.state; // 구조분해
-    console.log('tries.length : ' + tries.length);
     e.preventDefault();
     if (value === answer.join('')) {
       this.setState((prevState) => {
@@ -60,14 +59,14 @@ class NumberBaseball extends Component {
           } else if (answer.includes(answerArray[i])) {
             ball += 1;
           }
-          this.setState((prevState) => {
-            return {
-              tries: [...prevState.tries, { try: value, result: `${strike} Strike, ${ball} Ball` }],
-              value: '',
-            };
-          });
-          this.inputRef.current.focus();
         }
+        this.setState((prevState) => {
+          return {
+            tries: [...prevState.tries, { try: value, result: `${strike} Strike, ${ball} Ball` }],
+            value: '',
+          };
+        });
+        this.inputRef.current.focus();
       }
     }
   };
@@ -86,7 +85,7 @@ class NumberBaseball extends Component {
       <>
         <h1>{result}</h1>
         <form onSubmit={this.onSubmitForm}>
-          <input ref={this.createRef} maxLength={4} value={value} onChange={this.onChangeInput}/>
+          <input ref={this.inputRef} maxLength={4} value={value} onChange={this.onChangeInput}/>
         </form>
         <div>시도: {tries.length}</div>
         <ul>
