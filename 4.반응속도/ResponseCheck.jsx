@@ -29,7 +29,7 @@ class ResponseCheck extends Component {
       clearTimeout(this.timeout);
       this.setState({
         state: 'waiting',
-        message: 'TOO FAST',
+        message: 'TOO EARLY',
       })
     } else if (state === 'now') {   // response check
       this.endTime = new Date();
@@ -43,11 +43,20 @@ class ResponseCheck extends Component {
     }
   };
 
+  onReset = () => {
+    this.setState({
+      result: [],
+    });
+  };
+
   renderAverage = () => {
     const { result } = this.state;
     return result.length === 0
       ? null
-      : <div>Æò±Õ ½Ã°£: {result.reduce((a, c) => a + c) / result.length}ms</div>
+      : <>
+          <div>RESPONSE AVERAGE: {result.reduce((a, c) => a + c) / result.length}ms</div>
+          <button onClick={this.onReset}>RESET</button>
+        </>
   }
 
   render() {
