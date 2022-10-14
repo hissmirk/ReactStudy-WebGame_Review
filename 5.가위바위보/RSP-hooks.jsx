@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import useInterval from "./useInterval";
 
 const rspCoords = {
   ROCK: '0',
@@ -21,20 +22,8 @@ const computerChoice = (imgCoord) => {
 const RSP = () => {
   const [result, setResult] = useState('');
   const [imgCoord, setImgCoord] = useState(rspCoords.ROCK);
-  const [score, setScore] = useState('');
-  const interval = useRef(null);
-
-  const changeHandInterval = () => {
-    interval.current = setInterval(changeHand, 500);
-  }
-
-  useEffect(() => { // componentDidMount, componentDidUpdate 역할 (1대1 대응은 아님)
-    changeHandInterval();
-    return () => { // componentWillUnmount 역할
-      clearInterval(interval.current);
-    }
-  }, [imgCoord]);
-
+  const [score, setScore] = useState(0);
+  const [isRunning, setIsRunning] = useState(true);
 
   const changeHand = () => {
     if (imgCoord === rspCoords.ROCK) {
@@ -46,24 +35,28 @@ const RSP = () => {
     }
   };
 
+  useInterval(changeHand, isRunning ? 100 : null);
+
   const onClickBtn = (choice) => () => {
-    clearInterval(interval.current);
-    const myScore = scores[choice];
-    const cpuScores= scores[computerChoice(imgCoord)];
-    const diff = myScore - cpuScores;
-    if (diff === 0) {
-      setResult('DRAW!');
-    } else if ([-1, 2].includes(diff)) {
-      setResult('WIN!');
-      setScore((prevScore) => prevScore + 1);
-    } else {
-      setResult('LOSE.');
-      setScore((prevScore) => prevScore - 1);
+    if (isRunning) {
+      setIsRunning(false);
+      const myScore = scores[choice];
+      const cpuScores = scores[computerChoice(imgCoord)];
+      const diff = myScore - cpuScores;
+      if (diff === 0) {
+        setResult('DRAW!');
+      } else if ([-1, 2].includes(diff)) {
+        setResult('WIN!');
+        setScore((prevScore) => prevScore + 1);
+      } else {
+        setResult('LOSE.');
+        setScore((prevScore) => prevScore - 1);
+      }
+      setTimeout(() => {
+        setIsRunning(true);
+      }, 1000);
     }
-    setTimeout(() => {
-      changeHandInterval();
-    }, 1000)
-  }
+  };
 
   return (
     <>
