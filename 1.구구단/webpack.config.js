@@ -1,4 +1,6 @@
 const path = require('path');
+const LoaderOptionPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
   name: 'gugudan-setting',
@@ -26,13 +28,24 @@ module.exports = {
           }],
           '@babel/preset-react',
         ],
-        // plugins: ['@babel/plugin-proposal-class-properties'],
+        // plugins: ['react-refresh/babel'],
       },
     }],
   },
+
+  plugins: [
+    new RefreshWebpackPlugin(),
+  ],
 
   output: {
     filename: 'app.js',
     path: path.join(__dirname, 'dist'), // __dirname = 현재 폴더, 'dist' = 경로
   }, // 출력
+
+  devServer: {
+    devMiddleware: { publicPath: '/dist' },
+    static: { directory: path.resolve(__dirname, 'src') },
+    hot: true,
+  },
+
 };
