@@ -24,12 +24,17 @@ const RSP = () => {
   const [score, setScore] = useState('');
   const interval = useRef(null);
 
+  const changeHandInterval = () => {
+    interval.current = setInterval(changeHand, 500);
+  }
+
   useEffect(() => { // componentDidMount, componentDidUpdate 역할 (1대1 대응은 아님)
-    interval.current = setInterval(changeHand, 100);
+    changeHandInterval();
     return () => { // componentWillUnmount 역할
       clearInterval(interval.current);
     }
-  }, []);
+  }, [imgCoord]);
+
 
   const changeHand = () => {
     if (imgCoord === rspCoords.ROCK) {
@@ -41,7 +46,7 @@ const RSP = () => {
     }
   };
 
-  const onClickBtn = (choice) => {
+  const onClickBtn = (choice) => () => {
     clearInterval(interval.current);
     const myScore = scores[choice];
     const cpuScores= scores[computerChoice(imgCoord)];
@@ -56,13 +61,13 @@ const RSP = () => {
       setScore((prevScore) => prevScore - 1);
     }
     setTimeout(() => {
-      interval.current = setInterval(changeHand, 100);
+      changeHandInterval();
     }, 1000)
   }
 
   return (
     <>
-      <div></div>
+      <div id="computer" style={{ background: `url(https://en.pimg.jp/023/182/267/1/23182267.jpg) ${imgCoord} 0` }} />
       <div>
         <button id="rock" className="btn" onClick={onClickBtn('ROCK')}>ROCK</button>
         <button id="scissor" className="btn" onClick={onClickBtn('SCISSOR')}>SCISSOR</button>
@@ -74,3 +79,5 @@ const RSP = () => {
   )
 
 }
+
+export default RSP;
