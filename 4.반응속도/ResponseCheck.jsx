@@ -24,7 +24,7 @@ class ResponseCheck extends Component {
           message: 'CLICK!',
         })
         this.startTime = new Date();
-      }, Math.floor(Math.random() * 1000) + 2000); // 2ÃÊ~3ÃÊ ·£´ý
+      }, Math.floor(Math.random() * 1000) + 2000);
     } else if (state === 'ready') { // too fast message
       clearTimeout(this.timeout);
       this.setState({
