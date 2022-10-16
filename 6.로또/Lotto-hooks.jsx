@@ -29,8 +29,14 @@ const Lotto = () => {
     timeouts.current[6] = setTimeout(() => {
       setBonus(winNumbers[6]);
       setRedo(true);
+      return () => {
+        timeouts.current.forEach((v) => {
+          clearTimeout(v);
+        });
+      };
     }, 7000);
-  }, []);
+  }, [winBalls.length === 0]); // 빈 배열이면 compoonentDidMount와 동일
+  // 배열에 요소가 있으면 componentDidMount랑 componentDidUpdate 둘 다 수행
 
   const onClickRedo = () => {
     setWinNumbers(getWinNumbers());
