@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import Ball from "./Ball";
 
 function getWinNumbers() {
@@ -14,7 +14,8 @@ function getWinNumbers() {
 }
 
 const Lotto = () => {
-  const [winNumbers, setWinNumbers] = useState(getWinNumbers());
+  const lottoNumbers = useMemo(() => getWinNumbers(), []); // 두번째 인자(deps)가 변경되지 않는 한 중복 실행되지 않는다.
+  const [winNumbers, setWinNumbers] = useState(lottoNumbers);
   const [winBalls, setWinBalls] = useState([]);
   const [bonus, setBonus] = useState(null);
   const [redo, setRedo] = useState(false);
@@ -29,22 +30,22 @@ const Lotto = () => {
     timeouts.current[6] = setTimeout(() => {
       setBonus(winNumbers[6]);
       setRedo(true);
-      return () => {
-        timeouts.current.forEach((v) => {
-          clearTimeout(v);
-        });
-      };
     }, 7000);
-  }, [winBalls.length === 0]); // 빈 배열이면 compoonentDidMount와 동일
+    return () => {
+      timeouts.current.forEach((v) => {
+        clearTimeout(v);
+      });
+    };
+  }, [timeouts.current]); // 빈 배열이면 compoonentDidMount와 동일
   // 배열에 요소가 있으면 componentDidMount랑 componentDidUpdate 둘 다 수행
 
-  const onClickRedo = () => {
+  const onClickRedo = useCallback(() => {
     setWinNumbers(getWinNumbers());
     setWinBalls([]);
     setBonus(null);
     setRedo(false);
     timeouts.current = [];
-  };
+  }, []);
 
   return (
     <>
@@ -58,3 +59,5 @@ const Lotto = () => {
     </>
   );
 };
+
+export default Lotto;
