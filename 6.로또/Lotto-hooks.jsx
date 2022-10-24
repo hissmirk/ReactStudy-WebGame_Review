@@ -40,12 +40,13 @@ const Lotto = () => {
   // 배열에 요소가 있으면 componentDidMount랑 componentDidUpdate 둘 다 수행
 
   const onClickRedo = useCallback(() => {
+    console.log(winNumbers);
     setWinNumbers(getWinNumbers());
     setWinBalls([]);
     setBonus(null);
     setRedo(false);
     timeouts.current = [];
-  }, []);
+  }, [winNumbers]);
 
   return (
     <>
