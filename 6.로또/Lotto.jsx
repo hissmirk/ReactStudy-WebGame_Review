@@ -49,13 +49,12 @@ class Lotto extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { winBalls, bonus, redo } = this.state;
-
-    if (winBalls.length === 0 && bonus === null && redo === false) {
-      console.log('didUpdate => true');
+    console.log('didUpdate');
+    if (this.state.winBalls.length === 0) {
       this.runTimeouts();
-    } else {
-      console.log('didUpdate => false');
+    }
+    if (prevState.winNumbers !== this.state.winNumbers) {
+      console.log('로또 숫자를 생성합니다.')
     }
   }
 
