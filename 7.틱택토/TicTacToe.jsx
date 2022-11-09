@@ -39,6 +39,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         turn: state.turn === 'O' ? 'X' : 'O',
+        winner: '',
       };
     }
     case RESET_GAME: {
@@ -66,10 +67,6 @@ const TicTacToe = () => {
   // const [turn, setTurn] = useState('');
   // const [tableData, setTableData] = useState([['', '', ''], ['', '', ''], ['', '', '']]);
 
-  const onClickTable = useCallback(() => {
-    dispatch({ type: SET_WINNER, winner: 'O' });
-  }, []);
-
   useEffect(() => {
     const [row, cell] = recentCell;
     if (row < 0) {
@@ -89,8 +86,8 @@ const TicTacToe = () => {
       win = true;
     }
     if (win) {
-      dispatch({ type: SET_WINNER, winner: turn });
       dispatch({ type: RESET_GAME });
+      dispatch({ type: SET_WINNER, winner: turn });
     } else {
       let all = true;
       tableData.forEach((row) => {
@@ -101,6 +98,7 @@ const TicTacToe = () => {
         });
       });
       if (all) {
+        // dispatch({ type: SET_WINNER, winner: null });
         dispatch({ type: RESET_GAME });
       } else {
         dispatch({ type: CHANGE_TURN });
@@ -110,7 +108,7 @@ const TicTacToe = () => {
 
   return (
     <>
-      <Table onClick={onClickTable} tableData={tableData} dispatch={dispatch} />
+      <Table tableData={tableData} dispatch={dispatch} />
       {winner && <div>{winner}님의 승리</div>}
     </>
   );
