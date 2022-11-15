@@ -1,5 +1,5 @@
 import React, { useContext, useCallback } from "react";
-import { CODE, OPEN_CELL, TableContext } from "./MineSearch";
+import { CLICK_MINE, CODE, FLAG_CELL, NORMALIZE_CELL, OPEN_CELL, QUESTION_CELL, TableContext } from "./MineSearch";
 
 const getTdStyle = (code) => {
   switch (code) {
