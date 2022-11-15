@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useState, memo } from "react";
 import { START_GAME, TableContext } from "./MineSearch";
 
 const Form = () => {
@@ -19,7 +19,7 @@ const Form = () => {
     setMine(e.target.value);
   }, []);
 
-  const onClickBtn = useCallback((e) => {
+  const onClickBtn = useCallback(() => {
     dispatch({ type: START_GAME, row, cell, mine });
   }, [row, cell, mine]);
 
@@ -30,7 +30,7 @@ const Form = () => {
       <input type="number" placeholder="지뢰" value={mine} onChange={onChangeMine}/>
       <button onClick={onClickBtn}>시작</button>
     </>
-  )
-}
+  );
+};
 
 export default Form;

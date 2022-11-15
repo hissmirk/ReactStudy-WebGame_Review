@@ -135,15 +135,16 @@ const reducer = (state, action) => {
 
 const MineSearch = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { tableData, halted, timer, result } = state;
 
-  const value = useMemo(() => ({ tableData: state.tableData, halted: dispatch }), [state.tableData, state.halted]);
+  const value = useMemo(() => ({ tableData, halted, dispatch }), [tableData, halted]);
 
   return (
     <TableContext.Provider value={value}>
       <Form/>
-      <div>{state.timer}</div>
+      <div>{timer}</div>
       <Table/>
-      <div>{state.result}</div>
+      <div>{result}</div>
     </TableContext.Provider>
   )
 };
