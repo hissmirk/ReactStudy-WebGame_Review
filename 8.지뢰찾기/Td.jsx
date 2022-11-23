@@ -68,6 +68,7 @@ const Td = ({ rowIndex, cellIndex }) => {
         return;
       case CODE.MINE:
         dispatch({ type: CLICK_MINE, row: rowIndex, cell: cellIndex });
+        return;
       default:
         return;
     }
